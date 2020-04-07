@@ -61,6 +61,18 @@ output "tfe_console_password" {
   value       = random_pet.replicated-pwd.id
 }
 
-# output "db_endpoint" {
-#   value = "${aws_db_instance.ptfe.endpoint}"
-# }
+output "tfe_db_endpoint" {
+  value = aws_db_instance.ptfe.endpoint
+}
+
+output "tfe_initial_username" {
+  value = var.initial_admin_username
+}
+
+output "tfe_initial_password" {
+  value = random_password.tfe_initial_password.result
+}
+
+output "tfe_db_password" {
+  value = random_password.db_password.result
+}

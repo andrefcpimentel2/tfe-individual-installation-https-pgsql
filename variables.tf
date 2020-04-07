@@ -99,12 +99,27 @@ variable "license_file" {
   default = "hashicorp-internal---se.rli"
 }
 
+variable "database_username" {
+  default = "postgres"
+}
 
-# variable "database_name" {}
-# variable "database_username" {}
-# variable "database_pwd" {}
-# variable "database_storage" {}
-# variable "database_instance_class" {}
-# variable "database_multi_az" {}
+variable "database_storage" {
+  default = "20"
+}
+variable "database_instance_class" {
+  default = "db.t3.medium"
+}
+
+variable "initial_admin_username" {
+  # alphanumeric, at least 8 characters
+  description = "username of initial site admin user in PTFE"
+  default = "admin"
+}
+
+variable "initial_admin_email" {
+  description = "email of initial site admin user in PTFE"
+  default = "andre@hashicorp.com"
+}
+
 
 

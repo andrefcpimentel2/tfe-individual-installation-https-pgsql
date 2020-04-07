@@ -9,9 +9,11 @@
 
 
 ## Deploy
+
 Populate the tfvars file with:
-*license
-*zone id
+* license
+* zone id
+* namespace, owner,
 
 Run the commands:
 
@@ -23,3 +25,18 @@ Run the commands:
 ```terraform apply```
 
 Wait 10 min-ish for the installation, and access the dashboard
+
+
+
+## Troublueshooting
+
+Sometimes the connection to the PG database times out. Just hit the Start button again at the Dashboard.
+
+
+# PostgreSQL server
+
+
+Test connection from EC2
+sudo apt-get install postgresql-client
+  psql -h server.domain.org database user
+
