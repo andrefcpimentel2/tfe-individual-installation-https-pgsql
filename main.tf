@@ -82,6 +82,7 @@ resource "aws_eip" "ptfe" {
 resource "aws_s3_bucket" "pes" {
   bucket = "${var.namespace}-s3-bucket"
   acl    = "private"
+  force_destroy = true
 
   versioning {
     enabled = true
