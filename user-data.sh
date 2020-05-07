@@ -76,7 +76,7 @@ curl https://install.terraform.io/ptfe/stable > /home/ubuntu/install_ptfe.sh
 
 sudo bash /home/ubuntu/install_ptfe.sh no-proxy private-address=$PRIVATE_IP public-address=$PUBLIC_IP
 
-while ! curl -ksfS --connect-timeout 5 https://$PRIVATE_IP/_health_check; do
+while ! curl -ksfS --connect-timeout 5 https://${hostname}/_health_check; do
     sleep 15
 done
 
@@ -87,3 +87,7 @@ done
   "password": "${initial_admin_password}"
 }
 EOF
+
+INITIAL_TOKEN=$(replicated admin --tty=0 retrieve-iact)
+
+curl --header "Content-Type: application/json" --request POST --data-binary "@/home/ubuntu/initialuser.json" https://${hostname}/admin/initial-admin-user?token=$INITIAL_TOKEN

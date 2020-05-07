@@ -11,7 +11,11 @@ resource "random_password" "password" {
 resource "random_password" "tfe_initial_password" {
   length = 16
   special = true
-  override_special = "_%@"
+  min_upper = 1
+  min_lower = 1
+  min_special = 1
+  min_numeric  = 1
+  override_special = "_%@#"
 }
 
 # data "template_file" "user_data" {
