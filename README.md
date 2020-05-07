@@ -13,7 +13,7 @@
 Populate the tfvars file with:
 * license
 * zone id
-* namespace, owner,
+* namespace, owner, all your info
 
 Run the commands:
 
