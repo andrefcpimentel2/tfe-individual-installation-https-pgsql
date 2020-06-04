@@ -127,6 +127,7 @@ resource "aws_iam_instance_profile" "ptfe" {
   role = aws_iam_role.ptfe.name
 }
 
+#Policies here: S3 access for TFE storage and STS assume role for Workspaces to assume role instead of having IAM user keys
 data "aws_iam_policy_document" "ptfe" {
   statement {
     sid    = "AllowS3"
@@ -153,6 +154,18 @@ data "aws_iam_policy_document" "ptfe" {
        "s3:ListAllMyBuckets",
        "s3:ListBucket",
        "s3:HeadBucket"
+    ]
+  }
+  statement {
+    sid    = "AssumeRole"
+    effect = "Allow"
+
+    resources = [
+      "*"
+    ]
+
+    actions = [
+      "sts:AssumeRole",
     ]
   }
 }
