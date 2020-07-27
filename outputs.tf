@@ -69,3 +69,15 @@ output "tfe_initial_password" {
 output "tfe_db_password" {
   value = random_password.db_password.result
 }
+
+output "tfe_iam_assumerole_ec2_arn" {
+  value = aws_iam_role.ec2_iam_assumed_role.arn
+}
+
+# output "tfe_iam_assumerole_eks_arn" {
+#   value = aws_iam_role.eks_iam_assumed_role.arn
+# }
+
+output "tfe_iam_assumerole_s3_arn" {
+  value = aws_iam_role.s3_iam_assumed_role.arn
+}
