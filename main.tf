@@ -31,13 +31,21 @@ resource "random_password" "tfe_initial_password" {
 #   }
 # }
 
+
+locals {
+  fqdn = "tfe.${var.namespace}.${substr(data.aws_route53_zone.fdqn.name,0,length(data.aws_route53_zone.fdqn.name)-1)}"
+  
+
+  }
+
 resource "aws_instance" "tfe" {
 
   ami           = var.ami
   instance_type = var.instance_type_worker
   key_name      = aws_key_pair.deployer.key_name
+  associate_public_ip_address  = true
   user_data     = templatefile("user-data.sh", {
-      hostname       = "tfe.${var.namespace}.hashidemos.io",
+      hostname       = local.fqdn,
       enc_password = random_pet.replicated-pwd.id,
       daemon_password = random_password.password.result,
       license = filebase64(var.license_file),
@@ -76,15 +84,13 @@ resource "aws_instance" "tfe" {
     created-by = var.created-by
   }
 }
-resource "aws_eip" "ptfe" {
-  instance = aws_instance.tfe.id
-}
+
 
 
 ### S3 bucket resorces
 
 resource "aws_s3_bucket" "pes" {
-  bucket = "${var.namespace}-s3-bucket"
+  bucket = "${var.namespace}-tfe-s3bucket"
   acl    = "private"
   force_destroy = true
 
@@ -93,7 +99,7 @@ resource "aws_s3_bucket" "pes" {
   }
 
   tags = {
-    Name       = "${var.namespace}-tfe"
+    Name       = "${var.namespace}-tfe-s3bucket"
     owner      = var.owner
     created-by = var.created-by
   }

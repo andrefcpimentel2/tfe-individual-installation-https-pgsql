@@ -88,6 +88,6 @@ done
 }
 EOF
 
-INITIAL_TOKEN=$(replicated admin --tty=0 retrieve-iact)
+INITIAL_TOKEN=$(replicated admin retrieve-iact | tr -d '\r')
 
 curl --header "Content-Type: application/json" --request POST --data-binary "@/home/ubuntu/initialuser.json" https://${hostname}/admin/initial-admin-user?token=$INITIAL_TOKEN

@@ -30,18 +30,18 @@ SHELLCOMMANDS
 
 
 output "tfe_dashboard" {
-  value       = "https://${aws_route53_record.tfe_lb.fqdn}:8800"
+  value       = "https://${local.fqdn}:8800"
 }
 
 
 output "tfe_lb" {
   description = "List of public dns addresses assigned to the tfe instances"
-  value       = "https://${aws_route53_record.tfe_lb.fqdn}"
+  value       = "https://${local.fqdn}"
 }
 
 output "tfe_eip" {
   description = "List of public dns addresses assigned to the tfe instances"
-  value       = "https://${aws_eip.ptfe.public_ip}"
+  value       = "https://${aws_instance.tfe.public_ip}"
 }
 
 output "tfe_Daemon_Password" {
