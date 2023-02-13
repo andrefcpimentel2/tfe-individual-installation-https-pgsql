@@ -47,6 +47,7 @@ output "tfe_eip" {
 output "tfe_Daemon_Password" {
 
   value       = random_password.password.result
+  sensitive = true
 }
 
 output "tfe_console_password" {
@@ -64,10 +65,12 @@ output "tfe_initial_username" {
 
 output "tfe_initial_password" {
   value = random_password.tfe_initial_password.result
+  sensitive = true
 }
 
 output "tfe_db_password" {
   value = random_password.db_password.result
+  sensitive = true
 }
 
 output "tfe_iam_assumerole_ec2_arn" {

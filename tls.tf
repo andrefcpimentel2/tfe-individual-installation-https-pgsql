@@ -8,7 +8,6 @@ resource "tls_private_key" "tfe" {
 }
 
 resource "tls_self_signed_cert" "tfe" {
-  key_algorithm   = "ECDSA"
   private_key_pem = tls_private_key.tfe.private_key_pem
 
   subject {
@@ -29,7 +28,6 @@ resource "tls_self_signed_cert" "tfe" {
 
 # Client signing request
 resource "tls_cert_request" "tfe" {
-  key_algorithm   = tls_private_key.tfe.algorithm
   private_key_pem = tls_private_key.tfe.private_key_pem
 
   subject {
@@ -52,8 +50,6 @@ resource "tls_cert_request" "tfe" {
 
 resource "tls_locally_signed_cert" "workers" {
   cert_request_pem = tls_cert_request.tfe.cert_request_pem
-
-  ca_key_algorithm = var.ca_key_algorithm
   ca_private_key_pem = tls_private_key.tfe.private_key_pem
   ca_cert_pem        = tls_self_signed_cert.tfe.cert_pem
 
@@ -88,11 +84,11 @@ resource "aws_acm_certificate" "cert" {
 }
 
 resource "aws_route53_record" "validation_record" {
-  name    = aws_acm_certificate.cert.domain_validation_options.0.resource_record_name
-  type    = aws_acm_certificate.cert.domain_validation_options.0.resource_record_type
-  zone_id = var.zone_id
-  records = [ aws_acm_certificate.cert.domain_validation_options.0.resource_record_value ]
-  ttl     = "60"
+  name            = "${element(aws_acm_certificate.cert.domain_validation_options.*.resource_record_name, 0)}"
+  type            = "${element(aws_acm_certificate.cert.domain_validation_options.*.resource_record_type, 0)}"
+  zone_id         = var.zone_id
+  records         = ["${element(aws_acm_certificate.cert.domain_validation_options.*.resource_record_value, 0)}"]
+  ttl             = "60"
   allow_overwrite = true
 
   lifecycle {

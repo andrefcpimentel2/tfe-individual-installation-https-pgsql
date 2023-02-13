@@ -33,7 +33,7 @@ resource "random_password" "tfe_initial_password" {
 
 
 locals {
-  fqdn = "tfe.${var.namespace}.${substr(data.aws_route53_zone.fdqn.name,0,length(data.aws_route53_zone.fdqn.name)-1)}"
+  fqdn = "tfe.${var.namespace}.${substr(data.aws_route53_zone.fdqn.name,0,length(data.aws_route53_zone.fdqn.name))}"
   
 
   }

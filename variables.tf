@@ -53,7 +53,7 @@ default = ["10.1.1.0/24", "10.1.2.0/24"]
 
 variable "instance_type_worker" {
 description = "The type(size) of data servers (consul, nomad, etc)."
-default = "m5.large"
+default = "m5.xlarge"
 }
 
 # variable "host_access_ip" {
