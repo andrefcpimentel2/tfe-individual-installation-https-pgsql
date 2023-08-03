@@ -90,14 +90,8 @@ resource "aws_instance" "tfe" {
 ### S3 bucket resorces
 
 resource "aws_s3_bucket" "pes" {
-  bucket = "${var.namespace}-tfe-s3bucket"
-  acl    = "private"
+  bucket = "${random_pet.replicated-pwd.id}-tfe-s3bucket"
   force_destroy = true
-
-  versioning {
-    enabled = true
-  }
-
   tags = {
     Name       = "${var.namespace}-tfe-s3bucket"
     owner      = var.owner
@@ -105,7 +99,24 @@ resource "aws_s3_bucket" "pes" {
   }
 
 }
+resource "aws_s3_bucket_ownership_controls" "pes" {
+  bucket = aws_s3_bucket.pes.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+resource "aws_s3_bucket_acl" "pes" {
+  depends_on = [aws_s3_bucket_ownership_controls.pes]
+  bucket = aws_s3_bucket.pes.id
+  acl    = "private"
+}
 
+resource "aws_s3_bucket_versioning" "pes" {
+  bucket = aws_s3_bucket.pes.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
 # IAM resources
 
 resource "aws_iam_role" "ptfe" {

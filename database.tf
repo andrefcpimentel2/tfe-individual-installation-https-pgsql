@@ -15,10 +15,10 @@ resource "random_password" "db_password" {
 resource "aws_db_instance" "ptfe" {
   allocated_storage         = var.database_storage
   engine                    = "postgres"
-  engine_version            = "11.6"
+  engine_version            = "15.3"
   instance_class            = var.database_instance_class
   identifier                = "${var.namespace}-db-instance"
-  name                      = "${var.namespace}pes"
+  db_name                      = "${var.namespace}pes"
   storage_type              = "gp2"
   username                  = var.database_username
   password                  = random_password.db_password.result

@@ -3,7 +3,7 @@ data "http" "myipaddr" {
 }
 
 locals {
-   host_access_ip = ["${chomp(data.http.myipaddr.body)}/32"]
+   host_access_ip = ["${chomp(data.http.myipaddr.response_body)}/32"]
 }
 
 variable "region" {
@@ -72,7 +72,7 @@ variable "zone_id" {
 }
 
 variable "ca_key_algorithm" {
-default = ""
+default = "ECDSA"
 }
 
 variable "ca_private_key_pem" {
